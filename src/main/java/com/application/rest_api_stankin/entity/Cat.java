@@ -14,9 +14,8 @@ import lombok.Setter;
 public class Cat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Column(unique = true, nullable = false)
     private String name;
 
     private int age;
@@ -30,5 +29,15 @@ public class Cat {
     }
 
     public Cat() {
+    }
+
+    @Override
+    public String toString() {
+        return "Cat{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", weight=" + weight +
+                '}';
     }
 }

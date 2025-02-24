@@ -1,52 +1,76 @@
 package com.application.rest_api_stankin.controller;
 
 import com.application.rest_api_stankin.entity.Cat;
+import com.application.rest_api_stankin.repository.CatRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
   Класс rest-точек для взаимодействия с сервисами StankinService
  */
+@Slf4j
 @RestController
 public class ControllerRest {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final CatRepo catRepo;
+    private final ObjectMapper objectMapper;
+
+    public ControllerRest(CatRepo catRepo, ObjectMapper objectMapper) {
+        this.catRepo = catRepo;
+        this.objectMapper = objectMapper;
+    }
 
     /**
-      Метод для проверки контроллера, возврат сообщения по rest-точке "/api/main"
-      @return
+     * Endpoint для добавления JSON-записей в таблицу cats
+     * @param cat
      */
-    @GetMapping("/api/main")
-    public String mainListener() {
-        return "Hello World";
+    @PostMapping("/api/add")
+    public void addCat(@RequestBody Cat cat) {
+        log.info("New row: {}", catRepo.save(cat));
     }
 
-    @GetMapping("/api/cat")
-    public String giveCat() {
-        Cat cat = new Cat("Barsik", 5, 10);
-        String jsonData = null;
-        try {
-            jsonData = objectMapper.writeValueAsString(cat);
-        } catch (JsonProcessingException e) {
-            System.out.println("Error with cat");
-        }
-        return jsonData;
+    /**
+     * Endpoint для возврата всех полей таблицы cats
+     * @return
+     */
+    @GetMapping("/api/all")
+    public List<Cat> getAll() {
+            return catRepo.findAll();
     }
-    @PostMapping("/api/special")
-    public String giveSpecialCat(@RequestParam String name) {
-        Cat cat = new Cat(name, 5, 10);
-        String jsonData = null;
-        try {
-            jsonData = objectMapper.writeValueAsString(cat);
-        } catch (JsonProcessingException e) {
-            System.out.println("Error with cat");
-        }
-        return jsonData;
+
+    /**
+     * Endpoint для возврата одной записи по id из таблицы cats
+     * @param id
+     * @return
+     */
+    @GetMapping("/api")
+    public Cat getCat(@RequestParam int id) {
+        return catRepo.findById(id).orElseThrow();
     }
-}
+
+    /**
+     * Endpoint для удаления одной записи по id из таблицы cats
+     * @param id
+     */
+    @DeleteMapping("/api")
+    public void deleteCat(@RequestParam int id) {
+        catRepo.deleteById(id);
+    }
+
+    /**
+     * Endpoint для добавления JSON-записей в таблицу cats
+     * @param cat
+     */
+    @PutMapping("/api/add")
+    public String changeCat(@RequestBody Cat cat) {
+        if (!catRepo.existsById(cat.getId()))
+            return "No such row";
+        return catRepo.save(cat).toString();
+    }
+
+ }
