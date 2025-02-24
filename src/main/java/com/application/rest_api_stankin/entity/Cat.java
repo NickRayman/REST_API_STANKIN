@@ -1,19 +1,43 @@
 package com.application.rest_api_stankin.entity;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
-  DTO сущность в виде котика
+ * DTO сущность в виде котика
  */
+@Entity
+@Table(name = "cats")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Cat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String name;
+
     private int age;
+
     private int weight;
+
+    public Cat(String name, int age, int weight) {
+        this.name = name;
+        this.age = age;
+        this.weight = weight;
+    }
+
+    public Cat() {
+    }
+
+    @Override
+    public String toString() {
+        return "Cat{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", weight=" + weight +
+                '}';
+    }
 }
