@@ -1,8 +1,8 @@
 package com.application.rest_api_stankin.controller;
 
-import com.application.rest_api_stankin.DTO.PartDTO;
-import com.application.rest_api_stankin.entity.Part;
-import com.application.rest_api_stankin.repository.PartRepository;
+import com.application.rest_api_stankin.DTO.MenuDTO;
+import com.application.rest_api_stankin.entity.Menu;
+import com.application.rest_api_stankin.repository.MenuRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -13,52 +13,55 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Контроллер для деталей (с использованием DTO)
+ * Контроллер для блюд (с использованием DTO)
  */
-@Tag(name = "Parts API", description = "Методы для работы с деталями")
+@Tag(name = "Parts API", description = "Методы для работы с меню")
 @Slf4j
 @RestController
-@RequestMapping("/api/parts")
+@RequestMapping("/api/menu")
 @RequiredArgsConstructor
 public class PartController {
 
-    private final PartRepository partRepository;
+    private final MenuRepository menuRepository;
 
-    @Operation(summary = "Добавить новую деталь", description = "Сохраняет новую деталь в базе")
+    @Operation(summary = "Добавить новое блюдо", description = "Сохраняет новое блюдо в базе")
     @PostMapping("/add")
-    public Part addPart(@RequestBody PartDTO partDTO) {
-        Part part = new Part();
-        part.setPartName(partDTO.getName());
-        part.setPrice(partDTO.getPrice());
+    public Menu addPart(@RequestBody MenuDTO menuDTO) {
+        Menu menu = new Menu();
+        menu.setName(menuDTO.getName());
+        menu.setDescription(menuDTO.getDescription());
+        menu.setPrice(menuDTO.getPrice());
 
-        log.info("Добавлена деталь: {}", part);
-        return partRepository.save(part);
+        log.info("Добавлено блюдо: {}", menu);
+        return menuRepository.save(menu);
     }
 
-    @Operation(summary = "Получить список всех деталей", description = "Возвращает список всех деталей")
+    @Operation(summary = "Получить список всех блюд", description = "Возвращает список всех блюд")
     @GetMapping("/all")
-    public List<PartDTO> getAllParts() {
-        return partRepository.findAll().stream().map(part -> {
-            PartDTO dto = new PartDTO();
-            dto.setPartId(part.getId());
-            dto.setName(part.getPartName());
-            dto.setPrice(part.getPrice());
+    public List<MenuDTO> getAllParts() {
+        return menuRepository.findAll().stream().map(menu -> {
+            MenuDTO dto = new MenuDTO();
+            dto.setMenuId(menu.getId());
+            dto.setName(menu.getName());
+            dto.setDescription(menu.getDescription());
+            dto.setPrice(menu.getPrice());
             return dto;
         }).collect(Collectors.toList());
     }
 
-    @Operation(summary = "Получить деталь по ID", description = "Возвращает деталь по введенному id")
+    @Operation(summary = "Получить блюдо по ID", description = "Возвращает блюдо по введенному id")
     @GetMapping("/{id}")
-    public Part getPartById(@PathVariable Long id) {
-        return partRepository.findById(id).orElseThrow();
+    public Menu getPartById(@PathVariable Long id) {
+        return menuRepository.findById(id).orElseThrow();
     }
 
-    @Operation(summary = "Обновить деталь по ID", description = "Обновляет деталь по введенному id")
+    @Operation(summary = "Обновить блюдо по ID", description = "Обновляет блюдо по введенному id")
     @PutMapping("/set")
-    public Part updateOrder(@RequestBody PartDTO partDetails) {
-        Part part = partRepository.findById(partDetails.getPartId()).orElseThrow();
-        part.setPartName(partDetails.getName());
-        part.setPrice(partDetails.getPrice());
-        return partRepository.save(part);
+    public Menu updateOrder(@RequestBody MenuDTO partDetails) {
+        Menu menu = menuRepository.findById(partDetails.getMenuId()).orElseThrow();
+        menu.setName(partDetails.getName());
+        menu.setPrice(partDetails.getPrice());
+        menu.setDescription(partDetails.getDescription());
+        return menuRepository.save(menu);
     }
 }

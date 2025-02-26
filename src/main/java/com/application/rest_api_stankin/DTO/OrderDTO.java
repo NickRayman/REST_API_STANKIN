@@ -14,6 +14,6 @@ import lombok.experimental.FieldDefaults;
 public class OrderDTO {
     Long orderId;
     Long clientId;
-    Long partId;
+    Long menuId;
     String status;
 }

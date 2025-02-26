@@ -26,7 +26,7 @@ public class SwaggerConfig {
                         )
                 )
                 .info(
-                        new Info().title("Our cat API")
+                        new Info().title("Our restaurant API")
                 );
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Интерефейс для интеграции и работы с БД auto_service.orders
+ * Интерефейс для интеграции и работы с БД restaurant.orders
  */
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {

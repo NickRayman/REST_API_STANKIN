@@ -5,14 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 /**
- * DTO для деталей
+ * DTO для блюд
  */
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PartDTO {
-    Long partId;
+public class MenuDTO {
+    Long menuId;
     String name;
-    double price;
+    String description;
+    BigDecimal price;
 }

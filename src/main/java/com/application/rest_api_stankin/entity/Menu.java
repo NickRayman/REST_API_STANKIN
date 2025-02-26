@@ -3,26 +3,27 @@ package com.application.rest_api_stankin.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 /**
- * Cущность таблицы гость
+ * Cущность таблицы меню
  */
 @Entity
-@Table(name = "clients")
+@Table(name = "menu")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Client {
+public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String first_name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(unique = true, nullable = false)
-    private String last_name;
+    private String description;
 
-    private int age;
+    private BigDecimal price;
 }

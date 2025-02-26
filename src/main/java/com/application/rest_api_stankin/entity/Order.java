@@ -26,8 +26,8 @@ public class Order {
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "part_id", nullable = false)
-    private Part part;
+    @JoinColumn(name = "menu_id", nullable = false)
+    private Menu menu;
 
     @Column(name = "order_date", updatable = false)
     private LocalDateTime orderDate = LocalDateTime.now();
@@ -35,9 +35,4 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @Column(nullable = false)
-    private int quantity;
-
-    @Column(name = "total_price", nullable = false)
-    private double totalPrice;
 }

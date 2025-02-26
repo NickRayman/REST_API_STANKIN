@@ -3,11 +3,11 @@ package com.application.rest_api_stankin.controller;
 import com.application.rest_api_stankin.DTO.OrderDTO;
 import com.application.rest_api_stankin.entity.Client;
 import com.application.rest_api_stankin.entity.Order;
-import com.application.rest_api_stankin.entity.Part;
+import com.application.rest_api_stankin.entity.Menu;
 import com.application.rest_api_stankin.entity.enum_entity.OrderStatus;
 import com.application.rest_api_stankin.repository.ClientRepository;
 import com.application.rest_api_stankin.repository.OrderRepository;
-import com.application.rest_api_stankin.repository.PartRepository;
+import com.application.rest_api_stankin.repository.MenuRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -29,17 +29,17 @@ public class OrderController {
 
     private final OrderRepository orderRepository;
     private final ClientRepository clientRepository;
-    private final PartRepository partRepository;
+    private final MenuRepository menuRepository;
 
     @Operation(summary = "Создать новый заказ", description = "Добавляет новый заказ в базу данных")
     @PostMapping("/add")
     public Order createOrder(@RequestBody OrderDTO orderDTO) {
         Client client = clientRepository.findById(orderDTO.getClientId()).orElseThrow();
-        Part part = partRepository.findById(orderDTO.getPartId()).orElseThrow();
+        Menu menu = menuRepository.findById(orderDTO.getMenuId()).orElseThrow();
 
         Order order = new Order();
         order.setClient(client);
-        order.setPart(part);
+        order.setMenu(menu);
         order.setStatus(OrderStatus.valueOf(orderDTO.getStatus()));
 
         log.info("Создан заказ: {}", order);
@@ -53,7 +53,7 @@ public class OrderController {
             OrderDTO dto = new OrderDTO();
             dto.setOrderId(order.getId());
             dto.setClientId(order.getClient().getId());
-            dto.setPartId(order.getPart().getId());
+            dto.setMenuId(order.getMenu().getId());
             dto.setStatus(order.getStatus().name());
             return dto;
         }).collect(Collectors.toList());
@@ -68,7 +68,7 @@ public class OrderController {
     @Operation(summary = "Обновить заказ по ID", description = "Обновляет заказ по введенному id")
     @PutMapping("/set")
     public Order updateOrder(@RequestBody OrderDTO orderDetails) {
-        Order order = orderRepository.findById(orderDetails.getClientId()).orElseThrow();
+        Order order = orderRepository.findById(orderDetails.getOrderId()).orElseThrow();
         order.setStatus(OrderStatus.valueOf(orderDetails.getStatus()));
         return orderRepository.save(order);
     }

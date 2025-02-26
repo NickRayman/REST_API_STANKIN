@@ -6,14 +6,14 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 /**
- * DTO для клиента
+ * DTO для гостя
  */
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ClientDTO {
     Long clientId;
-    String name;
-    String email;
-    String phone;
+    String first_name;
+    String last_name;
+    int age;
 }
