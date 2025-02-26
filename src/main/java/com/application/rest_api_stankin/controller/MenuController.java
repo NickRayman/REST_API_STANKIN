@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/menu")
 @RequiredArgsConstructor
-public class PartController {
+public class MenuController {
 
     private final MenuRepository menuRepository;
 
