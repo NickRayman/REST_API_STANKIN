@@ -1,16 +1,19 @@
 package com.application.rest_api_stankin.DTO;
 
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 /**
- * DTO сущность в виде котика
+ * DTO для клиента
  */
-@Data
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CatDTO {
+public class ClientDTO {
+    Long clientId;
     String name;
-    int age;
-    int weight;
+    String email;
+    String phone;
 }
