@@ -68,7 +68,7 @@ public class OrderController {
     @Operation(summary = "Обновить заказ по ID", description = "Обновляет заказ по введенному id")
     @PutMapping("/set")
     public Order updateOrder(@RequestBody OrderDTO orderDetails) {
-        Order order = orderRepository.findById(orderDetails.getClientId()).orElseThrow();
+        Order order = orderRepository.findById(orderDetails.getOrderId()).orElseThrow();
         order.setStatus(OrderStatus.valueOf(orderDetails.getStatus()));
         return orderRepository.save(order);
     }
